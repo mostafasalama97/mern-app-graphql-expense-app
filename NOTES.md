@@ -71,3 +71,12 @@ npm install @apollo/client graphql
 -   **@apollo/client:** This single package contains virtually everything you need to set up Apollo Client. It includes the in-memory cache, local state management, error handling, and a React-based view layer.
 
 -   **graphql:** This package provides logic for parsing GraphQL queries.
+
+
+
+
+
+# Relationship Between These Files
+- **userTypeDef.js** defines the GraphQL types and operations (queries, mutations) related to users.
+- **user.resolver.js** provides the actual logic to resolve the queries and mutations defined in userTypeDef.js.
+- **transaction.resolver.js** is prepared to handle transaction-related logic but currently is empty
