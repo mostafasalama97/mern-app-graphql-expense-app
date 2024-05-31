@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import InputField from "../components/InputField";
-
+import toast from 'react-hot-toast';
+import { useMutation } from "@apollo/client";
+import { LOG_IN } from "../graphQl/mutations/user.mutation";
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({
 		username: "",
@@ -16,9 +18,24 @@ const LoginPage = () => {
 		}));
 	};
 
-	const handleSubmit = (e) => {
+
+	const [login, { data, loading, error }] = useMutation(LOG_IN, {
+		refetchQueries: ["GetAuthUser"]
+	})
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(loginData);
+		if (!loginData.username || !loginData.password) return toast.error("Please fill in all fields");
+		try {
+			await login({
+				variables: {
+					input: loginData
+				}
+			})
+		} catch (error) {
+			console.error(error);
+			toast.error(error.message)
+		}
 	};
 
 	return (

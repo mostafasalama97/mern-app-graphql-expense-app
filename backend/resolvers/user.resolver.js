@@ -78,32 +78,29 @@ const userResolver = {
             }
         },
         // Define an asynchronous resolver function to handle user logout.
-        logout: async (_, context) => {
+        logout: async (_, __, context) => {
             try {
-                // Log the user out by clearing the session context.
                 await context.logout();
-                req.session.destroy((err) => {
-                    if (err) throw new Error(err.message || "Internal Server Error");
+                context.req.session.destroy((err) => {
+                    if (err) throw err;
                 });
-                res.clearCookie("connect.sid");
+                context.res.clearCookie("connect.sid");
+
                 return { message: "Logged out successfully" };
             } catch (err) {
-                // Log the error and throw a new error indicating a problem with the logout process.
-                console.log("Error in logout: ", err.message);
-                throw new Error(err.message || "Internal Server Error");
+                console.error("Error in logout:", err);
+                throw new Error(err.message || "Internal server error");
             }
-        }
+        },
     },
     // Define the Query field resolvers within the resolver object.
     Query: {
         // Define an asynchronous resolver function to retrieve the authenticated user.
-        authUser: async (_, context) => {
+        authUser: async (_, __, context) => {
             try {
-                // Get the authenticated user from the session context.
                 const user = await context.getUser();
                 return user;
             } catch (err) {
-                // Log the error and throw a new error indicating a problem with retrieving the authenticated user.
                 console.log("Error in authUser: ", err.message);
                 throw new Error(err.message || "Internal Server Error");
             }

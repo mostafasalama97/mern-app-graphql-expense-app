@@ -99,14 +99,14 @@ await server.start();
 
 // Configure the Express application with necessary middleware.
 app.use(
-    '/',  // Base path for all routes.
+    '/graphql',  // Base path for all routes.
     cors({
-        origin: 'https://localhost:3000',
+        origin: 'http://localhost:3000',
         credentials: true
     }),  // Enables CORS to allow cross-origin requests.
     express.json(),  // Parses incoming requests with JSON payloads.
     expressMiddleware(server, {  // Integrate Apollo Server with Express, enabling GraphQL endpoint handling via Express.
-        context: ({ req, res }) => buildContext({ req, res }) // Function to build context for each GraphQL request.
+        context: async ({ req, res }) => buildContext({ req, res }) // Function to build context for each GraphQL request.
 
     }),
 );
@@ -115,4 +115,4 @@ app.use(
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
 await connectDB(); // Connect to the database.
 // Log to console once the server is ready and listening on the specified port.
-console.log(`🚀 Server ready at http://localhost:4000/`);
+console.log(`🚀 Server ready at http://localhost:4000/graphql`);
