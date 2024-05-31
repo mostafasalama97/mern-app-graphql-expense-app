@@ -6,18 +6,14 @@ const transactionResolver = {
     // Define the Query field resolvers within the resolver object.
     Query: {
         // Define an asynchronous resolver function to retrieve all transactions associated with the authenticated user.
-        transactions: async (_, context) => {
+        transactions: async (_, __, context) => {
             try {
-                // Check if the user is authenticated. If not, throw an error.
-                if (!context.getUser()) throw new Error("UnAuthorizedTransaction")
-                // Retrieve the user's ID from the context after authentication.
-                const userId = await context.getUser().id;
+                if (!context.getUser()) throw new Error("Unauthorized");
+                const userId = await context.getUser()._id;
 
-                // Find all transactions in the database that match the user's ID.
-                const transactions = await Transaction.find({ userId })
-                return transactions
+                const transactions = await Transaction.find({ userId });
+                return transactions;
             } catch (err) {
-                // Log the error and throw a new error indicating a problem with fetching transactions.
                 console.error("Error getting transactions:", err);
                 throw new Error("Error getting transactions");
             }
