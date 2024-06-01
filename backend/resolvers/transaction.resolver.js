@@ -21,8 +21,9 @@ const transactionResolver = {
         // Define an asynchronous resolver function to retrieve a single transaction by its ID.
         transaction: async (_, transactionId) => {
             try {
+                const id = transactionId.transactionId.toString()
                 // Find the transaction by its ID in the database.
-                const transaction = await Transaction.findById(transactionId)
+                const transaction = await Transaction.findById(id)
                 return transaction
             } catch (err) {
                 // Log the error and throw a new error indicating a problem with fetching the specific transaction.
@@ -53,10 +54,12 @@ const transactionResolver = {
         // Define an asynchronous resolver function to update an existing transaction.
         updateTransaction: async (_, { input }) => {
             try {
+                console.log("hellooooooo" , input)
                 // Update the transaction identified by input.transactionId with the new input values, and return the updated transaction.
                 const updatedTransaction = await Transaction.findByIdAndUpdate(input.transactionId, input, {
                     new: true,
                 });
+                console.log("updatedTransaction>>>>" , updatedTransaction)
                 return updatedTransaction;
             } catch (err) {
                 // Log the error and throw a new error indicating a problem with updating the transaction.

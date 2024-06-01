@@ -16,10 +16,10 @@ export const TRANSACTIONS = gql`
   }
 `;
 
-export const TRANSACTION = gql`
-  query transaction {
+export const GET_ONE_TRANSACTION = gql`
+  query getOneTransaction($id:ID!) {
     # write the name you used on user.resolver in back - end
-    transactions {
+    transaction(transactionId: $id) {
         _id
         description
         paymentType

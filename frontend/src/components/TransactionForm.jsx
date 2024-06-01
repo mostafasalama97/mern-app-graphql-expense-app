@@ -2,8 +2,11 @@ import { useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
 import { CREATE_TRANSACTION } from "../graphQl/mutations/transaction.mutation";
 const TransactionForm = () => {
-// TODO: REFETCH ONCE YOU CREATE TRANSACTION
-	const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION)
+// TODO: WHEN RELATIONSHIPS ARE ADDED, CHANGE THE REFETCH QUERY A BIT
+	const [createTransaction, { loading , data }] = useMutation(CREATE_TRANSACTION , {
+		refetchQueries: ["transactions"]
+	})
+	
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const form = e.target;

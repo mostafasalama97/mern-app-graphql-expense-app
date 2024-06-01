@@ -21,9 +21,8 @@ const Card = ({ transaction, authUser }) => {
 	let { category, amount, location, date, paymentType, description } = transaction;
 	const cardClass = categoryColorMap[category];
 	const [deleteTransaction, { loading }] = useMutation(DELETE_TRANSACTION, {
-		refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
+		refetchQueries: ["transactions"],
 	});
-
 	// Capitalize the first letter of the description
 	description = description[0]?.toUpperCase() + description.slice(1);
 	category = category[0]?.toUpperCase() + category.slice(1);
