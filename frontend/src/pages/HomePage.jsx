@@ -29,12 +29,13 @@ const HomePage = () => {
 	};
 
 
-	const [ logout , {loading , data , error}] = useMutation(LOG_OUT , {
+	const [ logout , {loading ,client}] = useMutation(LOG_OUT , {
 		refetchQueries: ["GetAuthUser"]
 	})
 	const handleLogout = async () => {
 		try {
 			await logout()
+			client.resetStore();
 		} catch (error) {
 			console.log(error)
 			toast.error(error.message)
