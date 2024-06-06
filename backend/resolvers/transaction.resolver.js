@@ -30,7 +30,35 @@ const transactionResolver = {
                 console.error("Error getting transaction:", err);
                 throw new Error("Error getting transaction");
             }
-        }
+        },
+        // add category state to implement correct chart
+        categoryStatistics: async (_, __, context) => {
+            if (!context.getUser()) throw new Error("Unauthorized");
+
+            const userId = context.getUser()._id;
+            const transactions = await Transaction.find({ userId });
+            const categoryMap = {};
+
+            // const transactions = [
+            // 	{ category: "expense", amount: 50 },
+            // 	{ category: "expense", amount: 75 },
+            // 	{ category: "investment", amount: 100 },
+            // 	{ category: "saving", amount: 30 },
+            // 	{ category: "saving", amount: 20 }
+            // ];
+
+            transactions.forEach((transaction) => {
+                if (!categoryMap[transaction.category]) {
+                    categoryMap[transaction.category] = 0;
+                }
+                categoryMap[transaction.category] += transaction.amount;
+            });
+
+            // categoryMap = { expense: 125, investment: 100, saving: 50 }
+
+            return Object.entries(categoryMap).map(([category, totalAmount]) => ({ category, totalAmount }));
+            // return [ { category: "expense", totalAmount: 125 }, { category: "investment", totalAmount: 100 }, { category: "saving", totalAmount: 50 } ]
+        },
     },
     // Define the Mutation field resolvers within the resolver object.
     Mutation: {
@@ -54,12 +82,11 @@ const transactionResolver = {
         // Define an asynchronous resolver function to update an existing transaction.
         updateTransaction: async (_, { input }) => {
             try {
-                console.log("hellooooooo" , input)
                 // Update the transaction identified by input.transactionId with the new input values, and return the updated transaction.
                 const updatedTransaction = await Transaction.findByIdAndUpdate(input.transactionId, input, {
                     new: true,
                 });
-                console.log("updatedTransaction>>>>" , updatedTransaction)
+                console.log("updatedTransaction>>>>", updatedTransaction)
                 return updatedTransaction;
             } catch (err) {
                 // Log the error and throw a new error indicating a problem with updating the transaction.
