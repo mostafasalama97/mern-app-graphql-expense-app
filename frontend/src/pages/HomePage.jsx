@@ -8,8 +8,9 @@ import { MdLogout } from "react-icons/md";
 import toast from 'react-hot-toast';
 import { useMutation, useQuery } from "@apollo/client";
 import { LOG_OUT } from "../graphQl/mutations/user.mutation";
-import { useState , useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { GET_TRANSACTION_STATISTICS } from "../graphQl/queries/transaction.query";
+import { GET_AUTH_USER } from "../graphQl/queries/user.query";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,7 +31,8 @@ const HomePage = () => {
 	// 	],
 	// };
 	const { data } = useQuery(GET_TRANSACTION_STATISTICS);
-console.log("categories statistics data" , data)
+	const { data: authUserData } = useQuery(GET_AUTH_USER);
+
 	const [chartData, setChartData] = useState({
 		labels: [],
 		datasets: [
@@ -47,7 +49,6 @@ console.log("categories statistics data" , data)
 		],
 	})
 
-	console.log("chartData" , chartData)
 
 	const [logout, { loading, client }] = useMutation(LOG_OUT, {
 		refetchQueries: ["GetAuthUser"]
@@ -104,7 +105,7 @@ console.log("categories statistics data" , data)
 						Spend wisely, track wisely
 					</p>
 					<img
-						src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+						src={authUserData?.authUser.profilePicture}
 						className='w-11 h-11 rounded-full border cursor-pointer'
 						alt='Avatar'
 					/>

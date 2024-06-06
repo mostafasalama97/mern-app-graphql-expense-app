@@ -27,11 +27,16 @@ export const GET_ONE_TRANSACTION = gql`
         amount
         date
         location
+        user {
+              name
+              username
+              profilePicture
+			  }
     }
 }
 `;
 
-export const GET_TRANSACTION_STATISTICS  = gql`
+export const GET_TRANSACTION_STATISTICS = gql`
 query getTransactionStatistics {
   categoryStatistics {
     category

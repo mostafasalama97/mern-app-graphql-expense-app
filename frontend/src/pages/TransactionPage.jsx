@@ -10,6 +10,7 @@ const TransactionPage = () => {
 	const { loading, data } = useQuery(GET_ONE_TRANSACTION, {
 		variables: { id: id }
 	})
+	console.log(data)
 
 	const [updateTransaction, { loading: loadingUpdate }] = useMutation(UPDATE_TRANSACTION)
 	const [formData, setFormData] = useState({

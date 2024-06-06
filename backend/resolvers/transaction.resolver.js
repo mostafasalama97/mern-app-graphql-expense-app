@@ -1,6 +1,6 @@
 // Import Mongoose models for Transaction and User from their respective files.
 import Transaction from "../models/transaction.models.js";
-
+ import User from "../models/user.model.js"
 // Define the transactionResolver object which will handle GraphQL queries and mutations related to transactions.
 const transactionResolver = {
     // Define the Query field resolvers within the resolver object.
@@ -86,7 +86,6 @@ const transactionResolver = {
                 const updatedTransaction = await Transaction.findByIdAndUpdate(input.transactionId, input, {
                     new: true,
                 });
-                console.log("updatedTransaction>>>>", updatedTransaction)
                 return updatedTransaction;
             } catch (err) {
                 // Log the error and throw a new error indicating a problem with updating the transaction.
@@ -108,6 +107,19 @@ const transactionResolver = {
         },
 
     },
+    Transaction: {
+        user: async (parent) => {
+            const userId = parent.userId;
+            try {
+                const user = await User.findById(userId);
+                return user;
+            } catch (error) {
+                console.error("Error fetching user:", error);
+                throw new Error("Error fetching user");
+            }
+
+        }
+    }
 }
 
 // Export the transactionResolver to make it available for combining with other resolvers in the GraphQL API.

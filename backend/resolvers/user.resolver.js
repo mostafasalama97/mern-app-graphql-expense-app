@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 // Importing the User model from the models directory.
 import User from '../models/user.model.js';
 
+import Transaction from '../models/transaction.models.js';
+
 // Define the user resolver with its Query and Mutation resolvers.
 const userResolver = {
     // Define the Mutation field resolvers within the resolver object.
@@ -118,6 +120,17 @@ const userResolver = {
             }
         }
     },
+    User: {
+        transactions: async (parent) => {
+            try {
+                    const transactions = await Transaction.find({userId: parent._id})
+                    return transactions;
+            } catch (err) {
+                console.log("Error in user.transactions resolver: ", err);
+                throw new Error(err.message || "Internal server error");
+            }
+        }
+    }
 }
 
 // Export the userResolver to make it available for combining with other resolvers in the GraphQL API.
