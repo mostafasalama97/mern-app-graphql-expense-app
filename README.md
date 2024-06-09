@@ -36,6 +36,6 @@ npm start
 ### live Demo
 
 ```markdown
-[https://mern-app-graphql-expense-app.onrender.com/](https://mern-app-graphql-expense-app.onrender.com/)
+https://mern-app-graphql-expense-app.onrender.com/
 ```
 
