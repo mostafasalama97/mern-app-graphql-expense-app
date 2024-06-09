@@ -32,3 +32,10 @@ npm run build
 ```shell
 npm start
 ```
+
+### live Demo
+
+```shell
+https://mern-app-graphql-expense-app.onrender.com/
+```
+
