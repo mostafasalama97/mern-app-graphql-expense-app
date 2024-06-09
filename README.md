@@ -35,7 +35,7 @@ npm start
 
 ### live Demo
 
-```shell
+```markdown
 https://mern-app-graphql-expense-app.onrender.com/
 ```
 
