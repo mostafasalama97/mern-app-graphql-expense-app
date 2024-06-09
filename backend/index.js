@@ -33,9 +33,10 @@ import connectMongo from "connect-mongodb-session";
 import { buildContext } from "graphql-passport";
 // Importing a configuration function to setup Passport strategies.
 import { configurePassport } from "./passport/passport.config.js"
+import path from "path";
 
 dotenv.config();  // if you donot call this function wyou will not be able to use environment variables
-
+const __dirname = path.resolve()
 configurePassport(); // Execute passport configuration function.
 
 // Initializing the Express application to handle HTTP requests.
@@ -110,6 +111,16 @@ app.use(
 
     }),
 );
+
+// use WebGL2RenderingContext.com to deploy the application
+// front-end and backend under the same domain 
+
+// npm run build for frontend application to generate dist folder
+app.use(express.static(path.join(__dirname, "frontend/dist")));  // Serve static files from the specified directory.
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend/dist" ,"index.html"));
+});
+
 
 // Start the HTTP server and listen on port 4000, ensuring it is fully ready before moving forward.
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
