@@ -20,7 +20,7 @@ import https from 'https'
 
 const URL = "https://mern-app-graphql-expense-app.onrender.com";
 
-const job = cron.CronJob('*/14 * * * *', function() {
+const job = new cron.CronJob('*/14 * * * *', function() {
     https.get(URL, (res) => {
         if(res.statusCode === 200){
             console.log("Get request sent successfully")
