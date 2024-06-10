@@ -35,10 +35,12 @@ import { buildContext } from "graphql-passport";
 import { configurePassport } from "./passport/passport.config.js"
 import path from "path";
 
+
+import job from "./cron.js"
 dotenv.config();  // if you donot call this function wyou will not be able to use environment variables
 const __dirname = path.resolve()
 configurePassport(); // Execute passport configuration function.
-
+job.start();
 // Initializing the Express application to handle HTTP requests.
 const app = express();
 
